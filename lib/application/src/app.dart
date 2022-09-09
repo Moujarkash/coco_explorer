@@ -1,5 +1,6 @@
 import 'package:coco_explorer/application/core/utils/app_scroll_behavior.dart';
 import 'package:coco_explorer/application/routes/router.gr.dart';
+import 'package:coco_explorer/application/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -11,6 +12,14 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: primaryColor,
+        colorScheme: const ColorScheme.light(
+          primary: primaryColor,
+          secondary: secondaryColor,
+          onSecondary: Colors.white
+        )
+      ),
       builder: (context, widget) {
         if (widget != null) {
           return GestureDetector(
