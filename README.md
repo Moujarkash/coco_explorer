@@ -1,4 +1,4 @@
-# coco_explorer
+# COCO Explorer
 
 Common Objects in Context (COCO) is an image and captions dataset used for training and evaluating machine learning models. COCO Explorer is a mobile app that allows a user to search the dataset by category and view the results.
 
