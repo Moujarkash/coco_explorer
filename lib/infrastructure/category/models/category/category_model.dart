@@ -1,28 +1,22 @@
 import 'package:coco_explorer/domain/category/entities/category.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part "category_model.g.dart";
 
 @JsonSerializable()
-class CategoryModel {
+class CategoryModel extends Equatable {
   final int id;
   final String title;
   final String imageUrl;
 
-  CategoryModel(this.id, this.title, this.imageUrl);
+  const CategoryModel(this.id, this.title, this.imageUrl);
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) =>
         _$CategoryModelFromJson(json);
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is CategoryModel && other.id == id && other.title == title && other.imageUrl == imageUrl;
-  }
-
-  @override
-  int get hashCode => id.hashCode ^ title.hashCode ^ imageUrl.hashCode;
+  List<Object?> get props => [id, title, imageUrl];
 
 }
 
