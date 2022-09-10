@@ -9,7 +9,7 @@ class GetCategoriesUseCase {
 
   GetCategoriesUseCase(this.categoryRepository);
 
-  Future<Resource<List<Category>>> call() {
+  Resource<List<Category>> call() {
     return categoryRepository.getCategories();
   }
 }

@@ -1,18 +1,16 @@
 import 'package:coco_explorer/di/injection.dart';
 import 'package:coco_explorer/infrastructure/category/datasources/category_local_datasource.dart';
 import 'package:coco_explorer/infrastructure/category/models/category/category_model.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:injectable/injectable.dart' as injectable;
+
+import '../../../config.dart';
 
 void main() {
+  init();
+
   late final CategoryLocalDatasource categoryLocalDatasource;
 
-  setUpAll(() async {
-    WidgetsFlutterBinding.ensureInitialized();
-
-    await configureInjection(injectable.Environment.test);
-
+  setUpAll(() {
     categoryLocalDatasource = getIt<CategoryLocalDatasource>();
   });
 
@@ -29,7 +27,7 @@ void main() {
   test(
     'should return list of category models based on search term',
     () async {
-      final categories = categoryLocalDatasource.getCategoriesSuggestions("ca");
+      final categories = categoryLocalDatasource.getCategoriesSuggestions('ca');
 
       expect(categories, isA<List<CategoryModel>>());
       expect(categories.length, greaterThan(0));

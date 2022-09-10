@@ -9,7 +9,7 @@ class GetCategoriesSuggestionsUseCase {
 
   GetCategoriesSuggestionsUseCase(this.categoryRepository);
 
-  Future<Resource<List<Category>>> call(String searchTerm) {
+  Resource<List<Category>> call(String searchTerm) {
     return categoryRepository.getCategoriesSuggestions(searchTerm);
   }
 }
