@@ -1,10 +1,12 @@
 import 'package:coco_explorer/domain/category/entities/category.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
 part 'selected_categories_event.dart';
 part 'selected_categories_state.dart';
 
+@injectable
 class SelectedCategoriesBloc extends Bloc<SelectedCategoriesEvent, SelectedCategoriesState> {
   SelectedCategoriesBloc() : super(SelectedCategoriesState(List.empty())) {
     on<SelectedCategoriesAdded>((event, emit) {
