@@ -3,7 +3,7 @@ import 'package:coco_explorer/domain/category/repository/category_repository.dar
 import 'package:coco_explorer/domain/core/models/resource.dart';
 import 'package:injectable/injectable.dart';
 
-@lazySingleton
+@injectable
 class GetCategoriesUseCase {
   final CategoryRepository categoryRepository;
 
