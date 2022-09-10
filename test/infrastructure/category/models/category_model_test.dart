@@ -31,7 +31,7 @@ void main() {
 
         final result = CategoryModel.fromJson(jsonMap);
 
-        expect(result, isA<CategoryModel>());
+        expect(result, tCategoryModel);
       },
     );
   });

@@ -13,6 +13,17 @@ class CategoryModel {
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) =>
         _$CategoryModelFromJson(json);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is CategoryModel && other.id == id && other.title == title && other.imageUrl == imageUrl;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ title.hashCode ^ imageUrl.hashCode;
+
 }
 
 extension MapToDomain on CategoryModel {
