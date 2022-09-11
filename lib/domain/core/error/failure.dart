@@ -1,3 +1,5 @@
+import 'package:coco_explorer/infrastructure/core/extensions/dio_error_extension.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 /// Custom object for handling failures and exceptions
@@ -21,6 +23,10 @@ class Failure extends Error {
 
   /// Convert exception to [Failure]
   factory Failure.fromException(Object e) {
+    if (e is DioError) {
+      return e.toFailure;
+    }
+
     debugPrint(e.toString());
     return Failure(
       e.toString(),
