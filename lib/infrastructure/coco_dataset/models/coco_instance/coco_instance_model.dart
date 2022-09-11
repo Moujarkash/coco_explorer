@@ -26,7 +26,7 @@ class CocoInstanceModel extends Equatable {
 
     final outerSegmentation = json.decode(jsonData);
     if (outerSegmentation is List) {
-      segmentation = outerSegmentation.first as List<num>;
+      segmentation = (outerSegmentation.first as List).map((e) => e as num).toList();
     }
 
     return segmentation;

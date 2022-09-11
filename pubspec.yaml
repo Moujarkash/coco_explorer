@@ -36,6 +36,8 @@ dependencies:
   internet_connection_checker: ^0.0.1+4
   equatable: ^2.0.5
   cached_network_image: ^3.2.2
+  bloc_concurrency: ^0.2.0
+  stream_transform: ^2.0.0
 
 dev_dependencies:
   flutter_test:

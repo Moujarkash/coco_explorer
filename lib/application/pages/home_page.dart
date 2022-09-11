@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coco_explorer/application/blocs/categories/categories_bloc.dart';
 import 'package:coco_explorer/application/blocs/categories_suggestions/categories_suggestions_bloc.dart';
 import 'package:coco_explorer/application/blocs/selected_categories/selected_categories_bloc.dart';
+import 'package:coco_explorer/application/routes/router.gr.dart';
 import 'package:coco_explorer/application/widgets/categories_suggestions_widget.dart';
 import 'package:coco_explorer/di/injection.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +65,10 @@ class _HomePageState extends State<HomePage> {
           height: 80,
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              final selectedCategoriesIds = selectedCategoriesBloc.state.selectedCategories.map((e) => e.id).toList();
+              AutoRouter.of(context).push(ResultsPageRoute(selectedCategoriesIds: selectedCategoriesIds));
+            },
             child: const Text('Explore'),
           ),
         ),

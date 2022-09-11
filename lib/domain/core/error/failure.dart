@@ -41,9 +41,6 @@ class FailureType {
 
   const FailureType._internal(this.code);
 
-  /// Authentication failure [code] : -4
-  static const FailureType authentication = FailureType._internal(-4);
-
   /// Failure caused by exceptions [code] : -3
   static const FailureType exception = FailureType._internal(-3);
 

@@ -1,5 +1,6 @@
 part of 'categories_suggestions_bloc.dart';
 
+@immutable
 abstract class CategoriesSuggestionsState {
   const CategoriesSuggestionsState();
 }

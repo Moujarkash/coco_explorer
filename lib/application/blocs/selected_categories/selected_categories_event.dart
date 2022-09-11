@@ -1,5 +1,6 @@
 part of 'selected_categories_bloc.dart';
 
+@immutable
 abstract class SelectedCategoriesEvent {
   const SelectedCategoriesEvent();
 }

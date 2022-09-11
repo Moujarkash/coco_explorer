@@ -2,6 +2,7 @@ import 'package:coco_explorer/domain/category/entities/category.dart';
 import 'package:coco_explorer/domain/category/usecases/get_categories_usecase.dart';
 import 'package:coco_explorer/domain/core/error/failure.dart';
 import 'package:coco_explorer/domain/core/models/resource.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
