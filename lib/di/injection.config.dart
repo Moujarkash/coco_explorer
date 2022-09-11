@@ -77,8 +77,8 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
           get<_i16.CocoDatasetRemoteDatasource>(), get<_i7.NetworkInfo>()));
   gh.factory<_i19.GetImagesIdsByCategoriesUseCase>(() =>
       _i19.GetImagesIdsByCategoriesUseCase(get<_i17.CocoDatasetRepository>()));
-  gh.factory<_i20.GetQueryDatasetUseCase>(
-      () => _i20.GetQueryDatasetUseCase(get<_i17.CocoDatasetRepository>()));
+  gh.factory<_i20.GetQueryDatasetUseCase>(() => _i20.GetQueryDatasetUseCase(
+      get<_i17.CocoDatasetRepository>(), get<_i9.CategoryRepository>()));
   gh.factory<_i21.ImagesByCategoriesBloc>(() =>
       _i21.ImagesByCategoriesBloc(get<_i19.GetImagesIdsByCategoriesUseCase>()));
   gh.factory<_i22.QueryDatasetBloc>(

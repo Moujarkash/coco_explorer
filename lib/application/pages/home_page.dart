@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coco_explorer/application/blocs/categories/categories_bloc.dart';
 import 'package:coco_explorer/application/blocs/categories_suggestions/categories_suggestions_bloc.dart';
 import 'package:coco_explorer/application/blocs/selected_categories/selected_categories_bloc.dart';
 import 'package:coco_explorer/application/routes/router.gr.dart';
 import 'package:coco_explorer/application/widgets/categories_suggestions_widget.dart';
+import 'package:coco_explorer/application/widgets/category_grid_item.dart';
 import 'package:coco_explorer/di/injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -128,27 +128,10 @@ class _HomePageState extends State<HomePage> {
                               final isSelected = selectedCategoriesState
                                   .selectedCategories
                                   .contains(category);
-                              return GestureDetector(
-                                onTap: () {
-                                  selectedCategoriesBloc
-                                      .add(SelectedCategoriesChanged(category));
-                                },
-                                child: GridTile(
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                          border: isSelected
-                                              ? Border.all(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  width: 3)
-                                              : null),
-                                      child: CachedNetworkImage(
-                                        imageUrl: category.imageUrl,
-                                        width: 40,
-                                        height: 40,
-                                      )),
-                                ),
-                              );
+                              return CategoryGridItem(category: category, isSelected: isSelected, onClick: () {
+                                selectedCategoriesBloc
+                                    .add(SelectedCategoriesChanged(category));
+                              },);
                             },
                           );
                         },

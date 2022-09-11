@@ -1,3 +1,4 @@
+import 'package:coco_explorer/domain/category/repository/category_repository.dart';
 import 'package:coco_explorer/domain/coco_dataset/entities/coco_caption.dart';
 import 'package:coco_explorer/domain/coco_dataset/entities/coco_image.dart';
 import 'package:coco_explorer/domain/coco_dataset/entities/coco_instance.dart';
@@ -9,8 +10,9 @@ import 'package:injectable/injectable.dart';
 @injectable
 class GetQueryDatasetUseCase {
   final CocoDatasetRepository cocoDatasetRepository;
+  final CategoryRepository categoryRepository;
 
-  GetQueryDatasetUseCase(this.cocoDatasetRepository);
+  GetQueryDatasetUseCase(this.cocoDatasetRepository, this.categoryRepository);
 
   Future<Resource<List<CocoResult>>> call(List<int> imagesIds) async {
     late final Resource<List<CocoResult>> resultsResource;
@@ -51,7 +53,11 @@ class GetQueryDatasetUseCase {
       final List<CocoInstance> cocoImageInstances = cocoInstances.where((element) => element.imageId == cocoImage.id).toList();
       final List<CocoCaption> cocoImageCaptions = cocoCaptions.where((element) => element.imageId == cocoImage.id).toList();
 
-      results.add(CocoResult(cocoImage, cocoImageInstances, cocoImageCaptions));
+      final categoriesIds = cocoImageInstances.map((e) => e.categoryId).toSet().toList();
+      final categoriesResource = categoryRepository.getCategoriesByIds(categoriesIds);
+      final categories = categoriesResource is ResourceData ? (categoriesResource as ResourceData).data : List.empty();
+
+      results.add(CocoResult(cocoImage, cocoImageInstances, cocoImageCaptions, categories));
     }
 
     resultsResource = ResourceData(results);

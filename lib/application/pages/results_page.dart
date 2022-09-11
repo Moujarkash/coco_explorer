@@ -1,6 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:coco_explorer/application/blocs/images_by_categories/images_by_categories_bloc.dart';
 import 'package:coco_explorer/application/blocs/query_dataset/query_dataset_bloc.dart';
+import 'package:coco_explorer/application/routes/router.gr.dart';
 import 'package:coco_explorer/application/widgets/error_view.dart';
 import 'package:coco_explorer/application/widgets/result_list_item.dart';
 import 'package:coco_explorer/di/injection.dart';
@@ -82,7 +83,9 @@ class _ResultsPageState extends State<ResultsPage> {
                           );
                         } else {
                           final result = queryState.results[index];
-                          return ResultListItem(result: result, onDetailsClicked: () {},);
+                          return ResultListItem(result: result, onDetailsClicked: () {
+                            AutoRouter.of(context).push(ResultDetailsPageRoute(result: result));
+                          },);
                         }
                       },
                       separatorBuilder: (context, index) => const SizedBox(
