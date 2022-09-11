@@ -2,15 +2,20 @@
 
 Common Objects in Context (COCO) is an image and captions dataset used for training and evaluating machine learning models. COCO Explorer is a mobile app that allows a user to search the dataset by category and view the results.
 
+## Architecture
+
+Clean Architecture + BloC Pattern
+
+## Testing
+
+Unit Test (note: not all classes are tested)
+
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+- Clone the project
+- Open the project in your IDE (VS Code or Android Studio or ..)
+- Run flutter pub get from the root of the project
+- Start the emulator or the simulator 
+- Choose a device
+- Run project from IDE or from command flutter run
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
