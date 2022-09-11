@@ -11,12 +11,17 @@ class ErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String message = 'OOPS!! Something went wrong';
+    if (failure.type == FailureType.internet) {
+      message = 'No Internet Connection';
+    }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Center(
           child: Text(
-            failure.reason,
+            message,
             style: Theme.of(context).textTheme.headline6,
             textAlign: TextAlign.center,
           ),
