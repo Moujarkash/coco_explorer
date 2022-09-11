@@ -2,7 +2,6 @@ import 'package:coco_explorer/domain/category/entities/category.dart';
 import 'package:coco_explorer/domain/category/usecases/get_categories_usecase.dart';
 import 'package:coco_explorer/domain/core/error/failure.dart';
 import 'package:coco_explorer/domain/core/models/resource.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -15,10 +14,10 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   final GetCategoriesUseCase getCategoriesUseCase;
 
   CategoriesBloc(this.getCategoriesUseCase) : super(CategoriesInitial()) {
-    on<CategoriesRequested>((event, emit) {
+    on<CategoriesRequested>((event, emit) async {
       emit(CategoriesLoadInProgress());
 
-      final resource = getCategoriesUseCase.call();
+      final resource = await getCategoriesUseCase.call();
       if (resource is ResourceData) {
         final resourceData = resource as ResourceData;
         emit(CategoriesLoadSuccess(resourceData.data));

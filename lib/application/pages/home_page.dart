@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coco_explorer/application/blocs/categories/categories_bloc.dart';
 import 'package:coco_explorer/application/blocs/categories_suggestions/categories_suggestions_bloc.dart';
 import 'package:coco_explorer/application/blocs/selected_categories/selected_categories_bloc.dart';
 import 'package:coco_explorer/application/widgets/categories_suggestions_widget.dart';
 import 'package:coco_explorer/di/injection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
@@ -51,19 +53,21 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.light,
         title: const Text("COCO Explorer"),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: const Icon(Icons.search),
       ),
-      body: Column(
+      body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                TextField(
+          Column(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: TextField(
                   controller: searchTextEditingController,
                   focusNode: searchFocusNode,
                   decoration: InputDecoration(
@@ -76,7 +80,8 @@ class _HomePageState extends State<HomePage> {
                               searchTextEditingController.text = "";
                               categoriesSuggestionsBloc
                                   .add(CategoriesSuggestionsCleared());
-                            }, icon: const Icon(Icons.close))
+                            },
+                            icon: const Icon(Icons.close))
                         : null,
                   ),
                   onChanged: (value) {
@@ -90,31 +95,89 @@ class _HomePageState extends State<HomePage> {
                         .add(CategoriesSuggestionsRequested(value));
                   },
                 ),
-                BlocBuilder(
-                  bloc: categoriesSuggestionsBloc,
-                  builder: (context, state) {
-                    if (state is CategoriesSuggestionsLoadSuccess &&
-                        state.categories.isNotEmpty &&
-                        isSearchHasFocus) {
-                      final categories = state.categories;
-                      return CategoriesSuggestionsWidget(
-                        categories: categories,
-                        onCategoryClicked: (category) {
-                          selectedCategoriesBloc
-                              .add(SelectedCategoriesAdded(category));
-                          categoriesSuggestionsBloc
-                              .add(CategoriesSuggestionsCleared());
-                          searchTextEditingController.text = "";
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              BlocBuilder(
+                bloc: categoriesBloc,
+                builder: (context, state) {
+                  if (state is CategoriesLoadSuccess) {
+                    final allCategories = state.categories;
+                    return Expanded(
+                      child: GridView.builder(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 16),
+                        itemCount: allCategories.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return BlocBuilder<SelectedCategoriesBloc, SelectedCategoriesState>(
+                            bloc: selectedCategoriesBloc,
+                            builder: (context, selectedCategoriesState) {
+                              final category = allCategories[index];
+                              final isSelected = selectedCategoriesState.selectedCategories.contains(category);
+                              return GestureDetector(
+                                onTap: () {
+                                  selectedCategoriesBloc.add(
+                                      SelectedCategoriesChanged(category));
+                                },
+                                child: GridTile(
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          border: isSelected
+                                              ? Border.all(
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  width: 3)
+                                              : null),
+                                      child: CachedNetworkImage(
+                                        imageUrl: category.imageUrl,
+                                        width: 40,
+                                        height: 40,
+                                      )),
+                                ),
+                              );
+                            },
+                          );
                         },
-                      );
-                    }
+                        gridDelegate:
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                                maxCrossAxisExtent: 40,
+                                crossAxisSpacing: 16,
+                                mainAxisSpacing: 16),
+                      ),
+                    );
+                  }
 
-                    return const SizedBox();
-                  },
-                )
-              ],
-            ),
-          )
+                  return const SizedBox();
+                },
+              )
+            ],
+          ),
+          BlocBuilder(
+            bloc: categoriesSuggestionsBloc,
+            builder: (context, state) {
+              if (state is CategoriesSuggestionsLoadSuccess &&
+                  state.categories.isNotEmpty &&
+                  isSearchHasFocus) {
+                final categories = state.categories;
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 70, 16, 0),
+                  child: CategoriesSuggestionsWidget(
+                    categories: categories,
+                    onCategoryClicked: (category) {
+                      selectedCategoriesBloc.add(
+                          SelectedCategoriesChanged(category));
+                      categoriesSuggestionsBloc
+                          .add(CategoriesSuggestionsCleared());
+                      searchTextEditingController.text = "";
+                    },
+                  ),
+                );
+              }
+
+              return const SizedBox();
+            },
+          ),
         ],
       ),
     );

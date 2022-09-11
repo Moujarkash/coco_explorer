@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class CategoryLocalDatasource {
-  List<CategoryModel> getCategories();
+  Future<List<CategoryModel>> getCategories();
 
   List<CategoryModel> getCategoriesSuggestions(String searchTerm);
 }
@@ -14,12 +14,12 @@ abstract class CategoryLocalDatasource {
 class CategoryLocalDatasourceImpl implements CategoryLocalDatasource {
   final List<CategoryModel> allCategories = List.empty(growable: true);
 
-  CategoryLocalDatasourceImpl() {
-    initData();
-  }
-
   @override
-  List<CategoryModel> getCategories() {
+  Future<List<CategoryModel>> getCategories() async {
+    if (allCategories.isEmpty) {
+      await initData();
+    }
+
     return allCategories;
   }
 

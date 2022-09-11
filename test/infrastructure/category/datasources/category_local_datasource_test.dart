@@ -17,7 +17,7 @@ void main() {
   test(
     'should return list of category models',
     () async {
-      final categories = categoryLocalDatasource.getCategories();
+      final categories = await  categoryLocalDatasource.getCategories();
 
       expect(categories, isA<List<CategoryModel>>());
       expect(categories.length, greaterThan(0));

@@ -15,9 +15,9 @@ class CategoryRepositoryImpl implements CategoryRepository {
   CategoryRepositoryImpl(this.categoryLocalDatasource, this.configuration);
 
   @override
-  Resource<List<Category>> getCategories() {
+  Future<Resource<List<Category>>> getCategories() async {
     try {
-      final categories = categoryLocalDatasource.getCategories();
+      final categories = await categoryLocalDatasource.getCategories();
       return Resource.data(categories.map((e) => e.toEntity(configuration.baseUrl)).toList());
     } catch (e) {
       return Resource.failure(Failure.fromException(e));
