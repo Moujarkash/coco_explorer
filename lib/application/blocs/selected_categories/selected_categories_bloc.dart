@@ -8,9 +8,11 @@ part 'selected_categories_state.dart';
 
 @injectable
 class SelectedCategoriesBloc extends Bloc<SelectedCategoriesEvent, SelectedCategoriesState> {
-  SelectedCategoriesBloc() : super(SelectedCategoriesState(List.empty())) {
+  SelectedCategoriesBloc() : super(SelectedCategoriesState(List.empty(growable: true))) {
     on<SelectedCategoriesAdded>((event, emit) {
         final categories = state.selectedCategories;
+        if (categories.contains(event.category)) return;
+
         categories.add(event.category);
 
         emit(SelectedCategoriesState(categories));

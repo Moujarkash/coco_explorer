@@ -27,7 +27,7 @@ class CategoryLocalDatasourceImpl implements CategoryLocalDatasource {
   List<CategoryModel> getCategoriesSuggestions(String searchTerm) {
     return allCategories
         .where((element) =>
-            element.title.toLowerCase().contains(searchTerm.toLowerCase()))
+            element.title.toLowerCase().startsWith(searchTerm.trim().toLowerCase()))
         .toList();
   }
 

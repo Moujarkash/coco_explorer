@@ -21,5 +21,5 @@ class CategoryModel extends Equatable {
 }
 
 extension MapToDomain on CategoryModel {
-  Category toEntity() => Category(id, title, imageUrl);
+  Category toEntity(String baseUrl) => Category(id, title, baseUrl + imageUrl);
 }

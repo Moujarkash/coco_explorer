@@ -12,3 +12,9 @@ class CategoriesSuggestionsRequested extends CategoriesSuggestionsEvent {
   @override
   List<Object?> get props => [searchTerm];
 }
+
+
+class CategoriesSuggestionsCleared extends CategoriesSuggestionsEvent {
+  @override
+  List<Object?> get props => [];
+}

@@ -29,5 +29,9 @@ class CategoriesSuggestionsBloc
         emit(CategoriesSuggestionsLoadFailure(resourceFailure.failure));
       }
     });
+
+    on<CategoriesSuggestionsCleared>((event, emit) {
+      emit(CategoriesSuggestionsLoadSuccess(List.empty()));
+    });
   }
 }
