@@ -33,4 +33,14 @@ class CategoryRepositoryImpl implements CategoryRepository {
       return Resource.failure(Failure.fromException(e));
     }
   }
+
+  @override
+  Resource<List<Category>> getCategoriesByIds(List<int> categoriesIds) {
+    try {
+      final categories = categoryLocalDatasource.getCategoriesByIds(categoriesIds);
+      return Resource.data(categories.map((e) => e.toEntity(configuration.baseUrl)).toList());
+    } catch (e) {
+      return Resource.failure(Failure.fromException(e));
+    }
+  }
 }

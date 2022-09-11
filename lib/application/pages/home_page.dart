@@ -56,17 +56,25 @@ class _HomePageState extends State<HomePage> {
         systemOverlayStyle: SystemUiOverlayStyle.light,
         title: const Text("COCO Explorer"),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.search),
+      bottomNavigationBar: Material(
+        elevation: 4,
+        child: Container(
+          width: double.infinity,
+          height: 80,
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+          child: ElevatedButton(
+            onPressed: () {},
+            child: const Text('Explore'),
+          ),
+        ),
       ),
       body: Stack(
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
                 child: TextField(
                   controller: searchTextEditingController,
                   focusNode: searchFocusNode,
@@ -96,9 +104,6 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ),
-              const SizedBox(
-                height: 16,
-              ),
               BlocBuilder(
                 bloc: categoriesBloc,
                 builder: (context, state) {
@@ -110,15 +115,18 @@ class _HomePageState extends State<HomePage> {
                             vertical: 8, horizontal: 16),
                         itemCount: allCategories.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return BlocBuilder<SelectedCategoriesBloc, SelectedCategoriesState>(
+                          return BlocBuilder<SelectedCategoriesBloc,
+                              SelectedCategoriesState>(
                             bloc: selectedCategoriesBloc,
                             builder: (context, selectedCategoriesState) {
                               final category = allCategories[index];
-                              final isSelected = selectedCategoriesState.selectedCategories.contains(category);
+                              final isSelected = selectedCategoriesState
+                                  .selectedCategories
+                                  .contains(category);
                               return GestureDetector(
                                 onTap: () {
-                                  selectedCategoriesBloc.add(
-                                      SelectedCategoriesChanged(category));
+                                  selectedCategoriesBloc
+                                      .add(SelectedCategoriesChanged(category));
                                 },
                                 child: GridTile(
                                   child: Container(
@@ -165,8 +173,8 @@ class _HomePageState extends State<HomePage> {
                   child: CategoriesSuggestionsWidget(
                     categories: categories,
                     onCategoryClicked: (category) {
-                      selectedCategoriesBloc.add(
-                          SelectedCategoriesChanged(category));
+                      selectedCategoriesBloc
+                          .add(SelectedCategoriesChanged(category));
                       categoriesSuggestionsBloc
                           .add(CategoriesSuggestionsCleared());
                       searchTextEditingController.text = "";

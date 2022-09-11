@@ -6,20 +6,24 @@ import 'package:injectable/injectable.dart';
 
 abstract class CategoryLocalDatasource {
   Future<List<CategoryModel>> getCategories();
-
   List<CategoryModel> getCategoriesSuggestions(String searchTerm);
+  List<CategoryModel> getCategoriesByIds(List<int> categoriesIds);
 }
 
+@preResolve
 @LazySingleton(as: CategoryLocalDatasource)
 class CategoryLocalDatasourceImpl implements CategoryLocalDatasource {
   final List<CategoryModel> allCategories = List.empty(growable: true);
 
+  @factoryMethod
+  static Future<CategoryLocalDatasourceImpl> create() async {
+    final instance = CategoryLocalDatasourceImpl();
+    await instance.initData();
+    return instance;
+  }
+
   @override
   Future<List<CategoryModel>> getCategories() async {
-    if (allCategories.isEmpty) {
-      await initData();
-    }
-
     return allCategories;
   }
 
@@ -41,5 +45,10 @@ class CategoryLocalDatasourceImpl implements CategoryLocalDatasource {
         allCategories.add(CategoryModel.fromJson(element));
       }
     }
+  }
+
+  @override
+  List<CategoryModel> getCategoriesByIds(List<int> categoriesIds) {
+    return allCategories.where((element) => categoriesIds.contains(element.id)).toList();
   }
 }

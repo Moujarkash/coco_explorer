@@ -39,12 +39,13 @@ import 'injectable_module.dart' as _i20; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
-_i1.GetIt $initGetIt(_i1.GetIt get,
-    {String? environment, _i2.EnvironmentFilter? environmentFilter}) {
+Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
+    {String? environment, _i2.EnvironmentFilter? environmentFilter}) async {
   final gh = _i2.GetItHelper(get, environment, environmentFilter);
   final injectableModule = _$InjectableModule();
-  gh.lazySingleton<_i3.CategoryLocalDatasource>(
-      () => _i3.CategoryLocalDatasourceImpl());
+  await gh.lazySingletonAsync<_i3.CategoryLocalDatasource>(
+      () => _i3.CategoryLocalDatasourceImpl.create(),
+      preResolve: true);
   gh.lazySingleton<_i4.Configuration>(() => _i4.AppConfiguration());
   gh.lazySingleton<_i5.Dio>(() => injectableModule.dioInstance);
   gh.lazySingleton<_i6.InternetConnectionChecker>(
